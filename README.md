@@ -8,10 +8,8 @@ This service uses the Google Gemini API to understand user requests in natural l
 
 - [How It Works](#how-it-works)
 - [Features](#features)
-- [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
 - [API Endpoints](#api-endpoints)
   - [Chat](#post-chat)
   - [Generate Form](#post-generate)
@@ -35,16 +33,7 @@ The backend is a Flask application that serves as a bridge between a user-facing
 -   **Iterative Form Refinement**: Allows for adding to or modifying an already partially-built form.
 -   **University-Specific Context**: Includes a validation layer to gently guide users toward creating forms relevant to a university setting (e.g., registrations, applications, surveys).
 
-## Project Structure
 
-```
-/
-├── app.py              # The main Flask application file
-├── requirements.txt    # Project dependencies
-├── .env                # Local environment variables (DO NOT COMMIT)
-├── .env.example        # Example environment variables
-└── README.md           # This file
-```
 
 ## Getting Started
 
@@ -56,68 +45,6 @@ Follow these instructions to get the AI assistant running on your local machine 
 -   `pip` (Python package installer)
 -   A Google AI API Key. You can get one from [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-### Installation
-
-1.  **Clone the repository:**
-    ```sh
-    git clone [https://github.com/your-username/usthb-forms-ai-backend.git](https://github.com/your-username/usthb-forms-ai-backend.git)
-    cd usthb-forms-ai-backend
-    ```
-
-2.  **Create and activate a virtual environment:**
-    - On macOS/Linux:
-      ```sh
-      python3 -m venv venv
-      source venv/bin/activate
-      ```
-    - On Windows:
-      ```sh
-      python -m venv venv
-      .\venv\Scripts\activate
-      ```
-
-3.  **Install the required packages:**
-    ```sh
-    pip install -r requirements.txt
-    ```
-    *You will need to create a `requirements.txt` file. Here are its contents:*
-    ```txt
-    Flask
-    google-generativeai
-    ```
-
-4.  **Set up your environment variables:**
-    * Create a file named `.env` by copying the example file:
-        ```sh
-        cp .env.example .env
-        ```
-    * Open the `.env` file and add your Google Gemini API key.
-        ```
-        GEMINI_API_KEY="AIzaSy...your...key...here"
-        ```
-    * **Important**: I've updated the code below to use this environment variable. Hardcoding API keys is insecure. Replace the `genai.configure` line in `app.py` with this:
-
-        ```python
-        # Near the top of app.py
-        import os
-        from dotenv import load_dotenv
-
-        load_dotenv() # Loads environment variables from .env file
-
-        # In your chat_with_ai and generate_form functions
-        # Replace the hardcoded key with this:
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            raise ValueError("GEMINI_API_KEY not found. Please set it in your .env file.")
-        genai.configure(api_key=api_key)
-        ```
-
-
-5.  **Run the Flask application:**
-    ```sh
-    flask run
-    ```
-    The application will be running at `http://127.0.0.1:5000`.
 
 ## API Endpoints
 
